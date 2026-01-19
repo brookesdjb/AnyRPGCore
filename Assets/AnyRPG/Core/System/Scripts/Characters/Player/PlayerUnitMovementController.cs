@@ -413,7 +413,7 @@ namespace AnyRPG {
 
             playerManager.ActiveUnitController.UnitAnimator.SetVelocity(localMoveVelocity);
 
-            playerManager.ActiveUnitController.UnitMotor?.Move(new Vector3(0, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.velocity.y, -53, 0), 0));
+            playerManager.ActiveUnitController.UnitMotor?.Move(new Vector3(0, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.linearVelocity.y, -53, 0), 0));
             CalculateFallDamage();
         }
 
@@ -517,7 +517,7 @@ namespace AnyRPG {
 
             // since we are in the move state, reset velocity to zero so we can pick up the new values
             // allow falling while moving by clamping existing y velocity
-            localMoveVelocity = new Vector3(0, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.velocity.y, -53, 0), 0);
+            localMoveVelocity = new Vector3(0, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.linearVelocity.y, -53, 0), 0);
             adjustedlocalMoveVelocity = localMoveVelocity;
 
             // determine direction of travel in world space
@@ -824,7 +824,7 @@ namespace AnyRPG {
                 }
             }
 
-            if (touchingGround && playerManager.ActiveUnitController.RigidBody.velocity.y < 0.1) {
+            if (touchingGround && playerManager.ActiveUnitController.RigidBody.linearVelocity.y < 0.1) {
                 if ((playerManager.PlayerController.HasMoveInput() || playerManager.PlayerController.HasTurnInput()) && playerManager.PlayerController.canMove) {
                     // new code to allow not freezing up when landing - fix, should be fall or somehow prevent from getting into move during takeoff
                     currentState = AnyRPGCharacterState.Move;
@@ -872,7 +872,7 @@ namespace AnyRPG {
             }
 
 
-            if (playerManager.ActiveUnitController.RigidBody.velocity.y <= 0f && Time.frameCount > (lastJumpFrame + 2)) {
+            if (playerManager.ActiveUnitController.RigidBody.linearVelocity.y <= 0f && Time.frameCount > (lastJumpFrame + 2)) {
                 if (playerManager.ActiveUnitController.CanGlide) {
                     currentState = AnyRPGCharacterState.Glide;
                     return;
@@ -894,7 +894,7 @@ namespace AnyRPG {
             fallStartHeight = playerManager.ActiveUnitController.transform.position.y;
 
             // clamp y velocity to prevent launching off ramps
-            playerManager.ActiveUnitController.UnitMotor?.Move(new Vector3(playerManager.ActiveUnitController.RigidBody.velocity.x, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.velocity.y, -53, 0), playerManager.ActiveUnitController.RigidBody.velocity.z));
+            playerManager.ActiveUnitController.UnitMotor?.Move(new Vector3(playerManager.ActiveUnitController.RigidBody.linearVelocity.x, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.linearVelocity.y, -53, 0), playerManager.ActiveUnitController.RigidBody.linearVelocity.z));
         }
 
         void Fall_StateUpdate() {
@@ -953,7 +953,7 @@ namespace AnyRPG {
             playerManager.ActiveUnitController.RigidBody.constraints = RigidbodyConstraints.FreezeRotation;
 
             // clamp y velocity to prevent launching off ramps
-            playerManager.ActiveUnitController.UnitMotor?.Move(new Vector3(playerManager.ActiveUnitController.RigidBody.velocity.x, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.velocity.y, -53, 0), playerManager.ActiveUnitController.RigidBody.velocity.z));
+            playerManager.ActiveUnitController.UnitMotor?.Move(new Vector3(playerManager.ActiveUnitController.RigidBody.linearVelocity.x, Mathf.Clamp(playerManager.ActiveUnitController.RigidBody.linearVelocity.y, -53, 0), playerManager.ActiveUnitController.RigidBody.linearVelocity.z));
         }
 
         void Glide_StateUpdate() {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
+
 using AnyRPG;
 
 namespace AnyRPG.EditorTools {
@@ -165,7 +165,7 @@ namespace AnyRPG.EditorTools {
             VisualElement filtersElement = new VisualElement() { style = { flexDirection = FlexDirection.Row } };
             root.Add(filtersElement);
 
-            typeFilter = new UnityEditor.UIElements.PopupField<Type>(classNames, 0) { style = { flexGrow = 0.4f } };
+            typeFilter = new UnityEngine.UIElements.PopupField<Type>(classNames, 0) { style = { flexGrow = 0.4f } };
             typeFilter.RegisterCallback<ChangeEvent<Type>>(x => ApplyClassFilter(x.newValue));
             filtersElement.Add(typeFilter);
 

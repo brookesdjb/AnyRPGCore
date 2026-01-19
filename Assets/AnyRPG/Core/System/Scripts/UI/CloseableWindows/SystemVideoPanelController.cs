@@ -198,13 +198,13 @@ namespace AnyRPG {
 
         public void CheckTextureQuality() {
             if (PlayerPrefs.GetInt("Textures") == 0) {
-                QualitySettings.masterTextureLimit = 2;
+                QualitySettings.globalTextureMipmapLimit = 2;
                 textureQualityArea.SelectButton(0);
             } else if (PlayerPrefs.GetInt("Textures") == 1) {
-                QualitySettings.masterTextureLimit = 1;
+                QualitySettings.globalTextureMipmapLimit = 1;
                 textureQualityArea.SelectButton(1);
             } else if (PlayerPrefs.GetInt("Textures") == 2) {
-                QualitySettings.masterTextureLimit = 0;
+                QualitySettings.globalTextureMipmapLimit = 0;
                 textureQualityArea.SelectButton(2);
             }
         }
@@ -249,19 +249,19 @@ namespace AnyRPG {
 
         public void TexturesLow() {
             PlayerPrefs.SetInt("Textures", 0);
-            QualitySettings.masterTextureLimit = 2;
+            QualitySettings.globalTextureMipmapLimit = 2;
             CheckTextureQuality();
         }
 
         public void TexturesMed() {
             PlayerPrefs.SetInt("Textures", 1);
-            QualitySettings.masterTextureLimit = 1;
+            QualitySettings.globalTextureMipmapLimit = 1;
             CheckTextureQuality();
         }
 
         public void TexturesHigh() {
             PlayerPrefs.SetInt("Textures", 2);
-            QualitySettings.masterTextureLimit = 0;
+            QualitySettings.globalTextureMipmapLimit = 0;
             CheckTextureQuality();
         }
 

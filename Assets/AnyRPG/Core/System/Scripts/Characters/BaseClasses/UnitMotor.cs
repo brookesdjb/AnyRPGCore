@@ -394,7 +394,7 @@ namespace AnyRPG {
                 //Debug.Log("characterUnit.yVelocity is " + currentYVelocity);
                 //Vector3 newMoveDirection = new Vector3(moveDirection.x, currentYVelocity, moveDirection.z);
                 //Debug.Log($"{unitController.gameObject.name}.UnitMotor.Move() newMoveDirection: " + moveDirection + "; unitController.MyRigidBody.constraints: " + unitController.RigidBody.constraints);
-                unitController.RigidBody.velocity = moveDirection;
+                unitController.RigidBody.linearVelocity = moveDirection;
                 //unitController.MyRigidBody.MovePosition(transform.position + moveDirection);
                 //unitController.MyRigidBody.AddForce(moveDirection, ForceMode.VelocityChange);
             }
@@ -440,7 +440,7 @@ namespace AnyRPG {
                 unitController.NavMeshAgent.velocity = rotateDirection;
             } else {
                 //Debug.Log("nav mesh agent is disabled");
-                unitController.RigidBody.velocity = rotateDirection;
+                unitController.RigidBody.linearVelocity = rotateDirection;
             }
         }
 
