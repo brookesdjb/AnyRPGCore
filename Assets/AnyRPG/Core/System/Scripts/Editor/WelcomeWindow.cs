@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.IO;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -132,8 +134,52 @@ namespace AnyRPG {
             try {
                 AssetDatabase.ImportPackage(package, true);
             } catch (Exception) {
-                Debug.LogError("Failed to import package: " + package);
+                UnityEngine.Debug.LogError("Failed to import package: " + package);
                 throw;
+            }
+        }
+
+        private static void RunUmaPostImportFix() {
+            string projectRoot = Directory.GetParent(Application.dataPath)?.FullName;
+            if (string.IsNullOrEmpty(projectRoot)) {
+                UnityEngine.Debug.LogError("UMA fix: could not resolve project root.");
+                return;
+            }
+
+            string scriptPath = Path.Combine(projectRoot, "Tools", "fix_uma_import.py");
+            if (!File.Exists(scriptPath)) {
+                UnityEngine.Debug.LogWarning("UMA fix: script not found at " + scriptPath);
+                return;
+            }
+
+            string pythonCommand = Application.platform == RuntimePlatform.WindowsEditor ? "python" : "python3";
+            try {
+                ProcessStartInfo psi = new ProcessStartInfo {
+                    FileName = pythonCommand,
+                    Arguments = $"\"{scriptPath}\"",
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
+                };
+
+                using (Process process = Process.Start(psi)) {
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrWhiteSpace(output)) {
+                        UnityEngine.Debug.Log(output.Trim());
+                    }
+                    if (!string.IsNullOrWhiteSpace(error)) {
+                        UnityEngine.Debug.LogWarning(error.Trim());
+                    }
+                    if (process.ExitCode != 0) {
+                        UnityEngine.Debug.LogError("UMA fix: script failed with exit code " + process.ExitCode);
+                    }
+                }
+            } catch (Exception ex) {
+                UnityEngine.Debug.LogError("UMA fix: failed to run script. " + ex.Message);
             }
         }
 
@@ -223,6 +269,14 @@ namespace AnyRPG {
             GUILayout.BeginVertical("window");
 
             EditorGUILayout.HelpBox("AnyRPG Installed Version: " + installedVersion, MessageType.Info);
+
+            GUILayout.BeginVertical("box");
+            if (GUILayout.Button("Fix UMA Import Issues")) {
+                RunUmaPostImportFix();
+            }
+            EditorGUILayout.HelpBox("Runs the UMA post-import fix script (removes invalid SerializeField on MeshHideAsset and avoids SSS helper name collisions).", MessageType.None);
+            GUILayout.EndVertical();
+            GUILayout.Space(10);
 
             GUILayout.BeginVertical("box");
             if (GUILayout.Button("Official Website")) {
