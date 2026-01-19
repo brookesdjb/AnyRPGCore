@@ -1,5 +1,6 @@
 using AnyRPG;
 using UnityEngine;
+using Input = AnyRPG.AnyRPGInput;
 using UnityEngine.EventSystems;
 
 namespace AnyRPG {

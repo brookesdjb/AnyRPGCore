@@ -1,6 +1,7 @@
 using AnyRPG;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Input = AnyRPG.AnyRPGInput;
 
 namespace AnyRPG {
     public class AnyRPGCameraController : ConfiguredMonoBehaviour {

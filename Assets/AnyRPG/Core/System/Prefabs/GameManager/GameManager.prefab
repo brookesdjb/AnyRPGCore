@@ -6389,7 +6389,7 @@ MonoBehaviour:
   newGameClass: 1
   newGameSpecialization: 1
   newGameAudio: 
-  defaultPlayerUnitProfile: DefaultPlayer
+  defaultPlayerUnitProfile: Default Player
   defaultUnitProfiles: []
   defaultInventorySlots: 20
   defaultBankSlots: 48

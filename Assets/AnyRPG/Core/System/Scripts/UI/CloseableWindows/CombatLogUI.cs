@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Input = AnyRPG.AnyRPGInput;
 
 namespace AnyRPG {
     public class CombatLogUI : NavigableInterfaceElement {

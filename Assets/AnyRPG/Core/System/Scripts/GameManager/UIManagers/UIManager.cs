@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Input = AnyRPG.AnyRPGInput;
 
 namespace AnyRPG {
     public class UIManager : ConfiguredMonoBehaviour {

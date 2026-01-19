@@ -75,6 +75,11 @@ namespace AnyRPG {
         private void OnTriggerExit(Collider collider) {
             //Debug.Log(interactable.gameObject.name + ".InteractableRange.OnTriggerExit(" + collider.gameObject.name + ") count: " + inRangeColliders.Count);
 
+            if (playerManager == null || playerManager.ActiveUnitController == null) {
+                RemoveInRangeCollider(collider.gameObject);
+                return;
+            }
+
             if (collider.gameObject == playerManager.ActiveUnitController.gameObject) {
                 playerManager.PlayerController.RemoveInteractable(interactable);
                 RemoveInRangeCollider(collider.gameObject);
@@ -92,6 +97,9 @@ namespace AnyRPG {
             //Debug.Log("InteractableRange.UpdateStatus()");
 
             foreach (GameObject go in inRangeColliders) {
+                if (playerManager == null || playerManager.ActiveUnitController == null) {
+                    continue;
+                }
                 if (interactable.SpawnPrerequisitesMet == false || interactable.GetCurrentInteractables().Count == 0) {
                     playerManager.PlayerController.RemoveInteractable(interactable);
                 } else {
@@ -107,7 +115,8 @@ namespace AnyRPG {
 
         public void OnSendObjectToPool() {
             foreach (GameObject go in inRangeColliders) {
-                if (go == playerManager.ActiveUnitController.gameObject) {
+                if (playerManager != null && playerManager.ActiveUnitController != null
+                    && go == playerManager.ActiveUnitController.gameObject) {
                     playerManager.PlayerController.RemoveInteractable(interactable);
                 }
             }

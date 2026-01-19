@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using Input = AnyRPG.AnyRPGInput;
 
 namespace AnyRPG {
     // responsible for detecting mouseover the nameplate canvas to allow override of overgameobject detection

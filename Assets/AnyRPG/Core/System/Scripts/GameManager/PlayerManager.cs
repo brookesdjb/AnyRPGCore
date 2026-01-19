@@ -244,7 +244,11 @@ namespace AnyRPG {
                 Vector3 spawnLocation = SpawnPlayerUnit();
                 // testing - remove all camera code from here
                 //cameraManager.ActivateMainCamera(true);
-                cameraManager.MainCameraController.SetTargetPositionRaw(spawnLocation, activeUnitController.transform.forward);
+                if (activeUnitController != null) {
+                    cameraManager.MainCameraController.SetTargetPositionRaw(spawnLocation, activeUnitController.transform.forward);
+                } else {
+                    Debug.LogWarning("PlayerManager.HandleLevelLoad(): activeUnitController is null after SpawnPlayerUnit; skipping camera target setup.");
+                }
             }
         }
 
@@ -365,12 +369,24 @@ namespace AnyRPG {
                 return;
             }
 
+            if (playerUnitParent == null) {
+                Debug.LogError("PlayerManager.SpawnPlayerUnit(): playerUnitParent is null. Assign it in the inspector.");
+                return;
+            }
+            if (activeCharacter == null) {
+                Debug.LogError("PlayerManager.SpawnPlayerUnit(): activeCharacter is null. Ensure the player character is initialized before spawning.");
+                return;
+            }
             if (playerConnectionObject == null) {
                 //Debug.Log("PlayerManager.SpawnPlayerUnit(): playerConnectionObject is null, instantiating connection!");
                 SpawnPlayerConnection();
             }
             if (activeCharacter.UnitProfile == null) {
                 activeCharacter.SetUnitProfile(systemConfigurationManager.DefaultPlayerUnitProfileName, true, -1, false);
+            }
+            if (activeCharacter.UnitProfile == null) {
+                Debug.LogError("PlayerManager.SpawnPlayerUnit(): activeCharacter.UnitProfile is null after SetUnitProfile. Check DefaultPlayerUnitProfileName and character setup.");
+                return;
             }
 
             // spawn the player unit and set references

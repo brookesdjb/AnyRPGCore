@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Input = AnyRPG.AnyRPGInput;
 
 namespace AnyRPG {
     public class PlayerController : ConfiguredMonoBehaviour {
